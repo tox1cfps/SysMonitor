@@ -1,5 +1,5 @@
 import psutil
-
+import time
 
 def main():
 
@@ -22,10 +22,11 @@ def main():
         mem = psutil.virtual_memory()
         disk = psutil.disk_usage('C:\\')
         net1 = psutil.net_io_counters()
+        time.sleep(1)
         net2 = psutil.net_io_counters()
-        download = (net2.bytes_recv - net1.bytes_recv) / 1024
-        upload = (net2.bytes_recv - net1.bytes_sent) / 1024
 
+        download = net2.bytes_recv - net1.bytes_recv
+        upload = net2.bytes_sent - net1.bytes_sent
 
         if opcao == 1:
             print(f"\nNúmero total de Núcleos: {cpu_logical}")
