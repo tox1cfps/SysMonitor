@@ -1,5 +1,6 @@
 import psutil
 import time
+import datetime
 
 def main():
 
@@ -12,6 +13,7 @@ def main():
         print("[3] -  DISCO")
         print("[4] -  PROCESSOS")
         print("[5] -  INTERNET")
+        print("[6] -  INFO SISTEMA")
         print("[0] -  FECHAR")
 
         opcao = int(input("\nSelecione sua opção: "))
@@ -27,6 +29,10 @@ def main():
 
         download = net2.bytes_recv - net1.bytes_recv
         upload = net2.bytes_sent - net1.bytes_sent
+
+        boot_time = datetime.datetime.fromtimestamp(psutil.boot_time())
+        agora = datetime.datetime.now()
+        uptime = agora - boot_time
 
         if opcao == 1:
             print(f"\nNúmero total de Núcleos: {cpu_logical}")
@@ -54,6 +60,9 @@ def main():
             print(f"Download: {download / (1024**2):.2f} MB/s")
             print(f"Upload: {upload / (1024**2):.2f} MB/s")
             print("-" * 20)
+        elif opcao == 6:
+            print("Sistema Iniciado em:", boot_time)
+            print(f"Tempo Ligado: {uptime}")
         elif opcao == 0:
             print("Fechando...")
             break
