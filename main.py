@@ -1,9 +1,9 @@
 import psutil
 import time
 import datetime
+import webbrowser
 
-def main():
-
+def menu():
     while True:
         print("\n------MONITORAMENTO DO SISTEMA-------")
 
@@ -16,53 +16,24 @@ def main():
         print("[6] -  INFO SISTEMA")
         print("[0] -  FECHAR")
 
-        opcao = int(input("\nSelecione sua opção: "))
-
-        cpu_logical = psutil.cpu_count()
-        cpu_fisico = psutil.cpu_count(logical=False)
-        cpu_percent = psutil.cpu_percent(interval=1)
-        mem = psutil.virtual_memory()
-        disk = psutil.disk_usage('C:\\')
-        net1 = psutil.net_io_counters()
-        time.sleep(1)
-        net2 = psutil.net_io_counters()
-
-        download = net2.bytes_recv - net1.bytes_recv
-        upload = net2.bytes_sent - net1.bytes_sent
-
-        boot_time = datetime.datetime.fromtimestamp(psutil.boot_time())
-        agora = datetime.datetime.now()
-        uptime = agora - boot_time
+        try:
+            opcao = int(input("\nSelecione sua opção: "))
+        except ValueError:
+            print("Digite um número válido.")
+            continue
 
         if opcao == 1:
-            print(f"\nNúmero total de Núcleos: {cpu_logical}")
-            print(f"Número total de Núcleos físicos: {cpu_fisico}")
-            print(f"CPU Usada: {cpu_percent}%\n")  
+            cpu_info()
         elif opcao == 2:
-            print(f"\nMemória total: {mem.total / (1024**3):.2f} GB")
-            print(f"Memória Disponível: {mem.available / (1024**3):.2f} GB")
-            if mem.percent > 60:
-                print(f"Alto uso de memória avistado: {mem.percent}%")
-            else:
-                print(f"Memória Usada: {mem.percent}%")
+            mem_info()
         elif opcao == 3:
-            print(f"\nEspaço total do Disco: {disk.total / (1024**3):.2f} GB")
-            print(f"Espaço em uso do Disco: {disk.used / (1024**3):.2f} GB")
-            print(f"Porcentagem de uso do Disco: {disk.percent}%")
+            disk_info()
         elif opcao == 4:
-            print("\nProcessos")
-
-            for processo in psutil.process_iter(['pid', 'name', 'status']):
-                print(f"\n{processo.info}")
+            process_info()
         elif opcao == 5:
-            print(f"\n{net1.bytes_sent / (1024**2):.2f} MBs Enviados")
-            print(f"{net1.bytes_recv / (1024**2):.2f} MBs Recebidos")
-            print(f"Download: {download / (1024**2):.2f} MB/s")
-            print(f"Upload: {upload / (1024**2):.2f} MB/s")
-            print("-" * 20)
+            internet_info()
         elif opcao == 6:
-            print("Sistema Iniciado em:", boot_time)
-            print(f"Tempo Ligado: {uptime}")
+            boot_info()
         elif opcao == 0:
             print("Fechando...")
             break
@@ -70,48 +41,68 @@ def main():
             print("Opção Inválida!")
         
 
+def cpu_info():
+    cpu_logical = psutil.cpu_count()
+    cpu_fisico = psutil.cpu_count(logical=False)
+    cpu_percent = psutil.cpu_percent(interval=1)
+
+    print(f"\nNúmero total de Núcleos: {cpu_logical}")
+    print(f"Número total de Núcleos físicos: {cpu_fisico}")
+    if cpu_percent > 90:
+        print(f"Alto uso de CPU Avistado: {cpu_percent}")
+        webbrowser.open('https://www.avg.com/pt/signal/fix-high-cpu-usage')
+    else:
+        print(f"CPU Usada: {cpu_percent}%\n")
 
 
+def mem_info():
+    mem = psutil.virtual_memory()
 
+    print(f"\nMemória total: {mem.total / (1024**3):.2f} GB")
+    print(f"Memória Disponível: {mem.available / (1024**3):.2f} GB")
+    if mem.percent > 60:
+        print(f"Alto uso de memória avistado: {mem.percent}%")
+        webbrowser.open('https://learn.microsoft.com/pt-br/answers/questions/4220859/windows-10-consumindo-muita-mem-ria-ram')
+    else:
+        print(f"Memória Usada: {mem.percent}%")
 
+def disk_info():
+    disk = psutil.disk_usage('C:\\')
 
+    print(f"\nEspaço total do Disco: {disk.total / (1024**3):.2f} GB")
+    print(f"Espaço em uso do Disco: {disk.used / (1024**3):.2f} GB")
+    print(f"Porcentagem de uso do Disco: {disk.percent}%")
+    
+def process_info():
+    print("\nProcessos")
 
+    for processo in psutil.process_iter(['pid', 'name', 'status']):
+        print(f"\n{processo.info}")
 
+def internet_info():
+    net1 = psutil.net_io_counters()
+    time.sleep(1)
+    net2 = psutil.net_io_counters()
 
+    download = net2.bytes_recv - net1.bytes_recv
+    upload = net2.bytes_sent - net1.bytes_sent
 
+    print(f"\n{net1.bytes_sent / (1024**2):.2f} MBs Enviados")
+    print(f"{net1.bytes_recv / (1024**2):.2f} MBs Recebidos")
+    print(f"Download: {download / (1024**2):.2f} MB/s")
+    print(f"Upload: {upload / (1024**2):.2f} MB/s")
+    print("-" * 20)
 
+def boot_info():
+    boot_time = datetime.datetime.fromtimestamp(psutil.boot_time())
+    agora = datetime.datetime.now()
+    uptime = agora - boot_time
 
+    print("Sistema Iniciado em:", boot_time)
+    print(f"Tempo Ligado: {uptime}")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def main():
+    menu()
 
 
 
