@@ -76,8 +76,21 @@ def disk_info():
 def process_info():
     print("\nProcessos")
 
-    for processo in psutil.process_iter(['pid', 'name', 'status']):
-        print(f"\n{processo.info}")
+    processos = []
+
+    for processo in psutil.process_iter(['pid', 'name', 'memory_percent']):
+        try:
+            processo.cpu_percent(interval=None)
+            processos.append(processo.info)
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+        top = sorted(processos, key=lambda x: x['memory_percent'], reverse=True)[:10]
+
+    for proc in top:
+            print(
+                f"{proc['name']} (PID {proc['pid']}) "
+                f"| RAM: {proc['memory_percent']:.2f}%"
+            )
 
 def internet_info():
     net1 = psutil.net_io_counters()
