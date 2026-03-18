@@ -93,7 +93,7 @@ Siga o menu para acessar cada funcionalidade.
 ![Monitor de Memória](docs/screenshots/memoria.png)
 
 ### Monitor de Disco
-![Monitor de Disco](docs/screenshots/disco.pngg)
+![Monitor de Disco](docs/screenshots/disco.png)
 
 ### Monitor de Processos
 ![Monitor de Processos](docs/screenshots/processos.png)
