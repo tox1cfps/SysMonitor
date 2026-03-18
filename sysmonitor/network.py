@@ -1,5 +1,3 @@
-"""Network-related helper functions."""
-
 import socket
 import time
 

@@ -1,5 +1,3 @@
-"""Memory-related helper functions."""
-
 import psutil
 import webbrowser
 

@@ -1,5 +1,3 @@
-"""Real-time monitoring helper functions."""
-
 import os
 import time
 

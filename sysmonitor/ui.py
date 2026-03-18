@@ -1,5 +1,3 @@
-"""Command-line user interface for SysMonitor."""
-
 from .cpu import cpu_info
 from .memory import mem_info
 from .disk import disk_info

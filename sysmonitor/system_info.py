@@ -1,5 +1,3 @@
-"""System information helper functions."""
-
 import datetime
 import platform
 

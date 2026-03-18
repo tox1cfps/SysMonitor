@@ -1,5 +1,3 @@
-"""Disk-related helper functions."""
-
 import psutil
 
 

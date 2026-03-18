@@ -1,5 +1,3 @@
-"""CPU-related helper functions."""
-
 import psutil
 import webbrowser
 

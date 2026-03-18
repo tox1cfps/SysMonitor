@@ -1,5 +1,3 @@
-"""Process management helper functions."""
-
 import psutil
 
 
